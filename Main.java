@@ -104,7 +104,7 @@ public class Main
 			"in our own growth and self-reflection. We appreciate you taking that journey with us! :D");
 	}
 
-	/***** TODO: (Part 2) upgrade method to ask user for pronouns and background info *****/
+	/***** TODO: (Part 2) upgrade method to ask user for pronouns and background info ****/
 	public static void fillInfo(Person person) {
 		String name, background, pronouns;
 	
