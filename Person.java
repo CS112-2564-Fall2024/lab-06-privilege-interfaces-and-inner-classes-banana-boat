@@ -1,85 +1,140 @@
-public class Person
-{
-	/***** TODO: (Part 2) create helper inner class for Identity*****/
+public class Person implements Comparable<Person> {
 
-	// CONSTANT VARIABLES
-	public static final String DEFAULT_NAME = "Jamie Doe";
-	public static final String DEFAULT_STORY =  "Unknown";
-	public static final int DEFAULT_PRIVILEGE = 100;
+    // CONSTANT VARIABLES
+    public static final String DEFAULT_NAME = "Jamie Doe";
+    public static final String DEFAULT_PRONOUNS = "They/Them";
+    public static final String DEFAULT_BACKGROUND = "Unknown";
+    public static final int DEFAULT_PRIVILEGE = 100;
 
-	// INSTANCE VARIABLES
-	private String name, story;
-	private int privilege;
+    // INSTANCE VARIABLES
+    private String name;
+    private Identity story; 
+    private int privilege;
 
-	// CONSTRUCTORS	
-	public Person(String name, String story, int privilege) {
-		this.setAll(name, story, privilege);
-	}
-		
-	public Person() {
-		this(DEFAULT_NAME, DEFAULT_STORY, DEFAULT_PRIVILEGE);
-	}
-	
-	public Person(Person original) {
-		if(original == null) {
-			throw new IllegalArgumentException("Cannot copy null obect in Person copy constructor");
-		} else {
-			this.setAll(original.name, original.story, original.privilege);
-		}
-	}
+    // Inner class for Identity
+    public class Identity {
+        private String pronouns;
+        private String background;
 
-	// MUTATORS/SETTERS
-	public void setName(String name) {
-		this.name = name;
-	}
+        // Constructors for Identity
+        public Identity(String pronouns, String background) {
+            this.pronouns = pronouns;
+            this.background = background;
+        }
 
-	public void setStory(String story) {
-		this.story = story;
-	}
+        public Identity() {
+            this(DEFAULT_PRONOUNS, DEFAULT_BACKGROUND);
+        }
 
-	public void setPrivilege(int privilege) {
-		this.privilege = privilege;
-	}
+        // Getters and Setters for Identity
+        public String getPronouns() {
+            return pronouns;
+        }
 
-	public void setAll(String name, String story, int privilege) {
-		this.setPrivilege(privilege);
-		this.setName(name);
-		this.setStory(story);
-	}
+        public void setPronouns(String pronouns) {
+            this.pronouns = pronouns;
+        }
 
-	// ACCESSORS / GETTERS
-	public String getName() {
-		return this.name;
-	}
-		
-	public String getStory() {
-		return this.story;
-	}
+        public String getBackground() {
+            return background;
+        }
 
-	public int getPrivilege() {
-		return this.privilege;
-	}
+        public void setBackground(String background) {
+            this.background = background;
+        }
 
-	// OTHER REQUIRED METHODS
-	@Override
-	public String toString()
-	{
-		return "My name is "+ this.name + " and "+ this.story + "\n"
-				+ "According to this calculator I ended up with "+ this.privilege + " estimated privilege points";
-	}
-	
-	@Override
-	public boolean equals(Object other) 
-	{
-		if(other == null || (!(other instanceof Person))) {
-		      return false;
-		}
-		
-		Person otherPerson = (Person) other;
-		return this.name.equals(otherPerson.name) && this.story.equals(otherPerson.story) &&
-			this.privilege == otherPerson.privilege;	
-	}
+        @Override
+        public String toString() {
+            return "Background: " + background + ", Pronouns: " + pronouns;
+        }
 
-	// INTERFACE METHODS
-	/***** TODO: (Part 1) override compareTo method to implement Comparable interface*****/
+        @Override
+        public boolean equals(Object other) {
+            if (this == other) return true;
+            if (other == null || getClass() != other.getClass()) return false;
+            Identity identity = (Identity) other;
+            return pronouns.equals(identity.pronouns) && background.equals(identity.background);
+        }
+    }
+
+    // Constructors for Person
+    public Person(String name, String pronouns, String background, int privilege) {
+        this.name = name;
+        this.story = new Identity(pronouns, background);
+        this.privilege = privilege;
+    }
+
+    public Person() {
+        this(DEFAULT_NAME, DEFAULT_PRONOUNS, DEFAULT_BACKGROUND, DEFAULT_PRIVILEGE);
+    }
+
+    public Person(Person original) {
+        if (original == null) {
+            throw new IllegalArgumentException("Cannot copy null object in Person copy constructor");
+        }
+        this.name = original.name;
+        this.story = new Identity(original.story.getPronouns(), original.story.getBackground());
+        this.privilege = original.privilege;
+    }
+
+    // Setters and getters for Person
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setPronouns(String pronouns) {
+        this.story.setPronouns(pronouns);
+    }
+
+    public void setBackground(String background) {
+        this.story.setBackground(background);
+    }
+
+    public void setPrivilege(int privilege) {
+        this.privilege = privilege;
+    }
+
+    public void setAll(String name, String pronouns, String background, int privilege) {
+        this.setName(name);
+        this.setPronouns(pronouns);
+        this.setBackground(background);
+        this.setPrivilege(privilege);
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getPronouns() {
+        return story.getPronouns();
+    }
+
+    public String getBackground() {
+        return story.getBackground();
+    }
+
+    public int getPrivilege() {
+        return privilege;
+    }
+
+    @Override
+    public String toString() {
+        return "My name is " + name + ". " + story + "\n" +
+               "According to this calculator I ended up with " + privilege + " estimated privilege points.";
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (this == other) return true;
+        if (other == null || getClass() != other.getClass()) return false;
+        Person person = (Person) other;
+        return privilege == person.privilege &&
+               name.equals(person.name) &&
+               story.equals(person.story);
+    }
+
+    @Override
+    public int compareTo(Person other) {
+        return Integer.compare(this.privilege, other.privilege);
+    }
 }

@@ -34,10 +34,10 @@ public class Main
 	public static void main(String[] args)
 	{
 		// DECLARATION + INITIALIZATION
-		Person p1 = new Person("Amira", "I am a Syrian refugee.", 40);
-		Person p2 = new Person("D'Andra", "I am an African-American trans woman.", -20);
-		Person p3 = new Person("Jennifer", "I am a New Yorker", 140);
-		Person p4 = new Person("Pete", "I am a guy from Pennsylvania", 200);
+		Person p1 = new Person("Amira", "she/her", "I am a Syrian refugee.", 40);
+		Person p2 = new Person("D'Andra", "she/her", "I am an African-American trans woman.", -20);
+		Person p3 = new Person("Jennifer", "she/her", "I am a New Yorker", 140);
+		Person p4 = new Person("Pete", "he/him", "I am a guy from Pennsylvania", 200);
 		Person self = new Person();
 		Person[] people = {p1, p2, p3, p4, self};
 		boolean done = false;
@@ -73,8 +73,19 @@ public class Main
 					System.out.println(self);
 					break;
 				case 3:
-					/***** TODO: (Part 1) implement a comparison case using the comparable method on the Person class to compare self to p1-p4*****/
-					
+					System.out.println("Comparing your privilege estimate with others:");
+					for (Person person : people) {
+						if (person != self) {
+							int comparisonResult = self.compareTo(person);
+							if (comparisonResult > 0) {
+								System.out.println("You have a higher privilege estimate than " + person.getName() + ".");
+							} else if (comparisonResult < 0) {
+								System.out.println("You have a lower privilege estimate than " + person.getName() + ".");
+							} else {
+								System.out.println("You have the same privilege estimate as " + person.getName() + ".");
+							}
+						}
+					}
 					System.out.println("\nReturning to main menu.\n");
 					break;
 				case 4:
@@ -94,20 +105,22 @@ public class Main
 	}
 
 	/***** TODO: (Part 2) upgrade method to ask user for pronouns and background info *****/
-	public static void fillInfo(Person person){
-		//sets default privilege prior to questionnaire to 100
-		String name, story;
-		
+	public static void fillInfo(Person person) {
+		String name, background, pronouns;
+	
 		System.out.println("What is your name? ");
 		name = keyboard.nextLine();
-		System.out.println("\nHello " + name + ", write a small self-identifying statement about yourself "
-				+ "and your background and identity, this can be anything you like!\n"
-				+ "For example: I'm a [nationality / place of origin / ethnicity / sexuality / gender expression / etc.]...");
-		System.out.println("Tell us about yourself: ");
-		story = keyboard.nextLine();
-		
+	
+		System.out.println("\nHello " + name + "! Let's gather some additional information.");
+		System.out.println("Please write a small self-identifying statement about yourself (background/identity): ");
+		background = keyboard.nextLine();
+	
+		System.out.println("What are your preferred pronouns? (e.g., She/Her, He/Him, They/Them): ");
+		pronouns = keyboard.nextLine();
+	
 		person.setName(name);
-		person.setStory(story);
+		person.setPronouns(pronouns);
+		person.setBackground(background);
 	}
 
 	public static int doPrivilegeQuestionnaire() {
